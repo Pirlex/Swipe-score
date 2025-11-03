@@ -1,0 +1,78 @@
+[
+    {
+        "case_size": 50,
+        "name": "Apple",
+        "stock_name": "AAPL",
+        "stock_exchange": "NASDAQ",
+        "continent": "North America",
+        "country": "USA",
+        "sector": "Technology",
+        "industry": "Consumer Electronics",
+        "market_cap": 2250000000000,
+        "perspective": 5,
+        "perseptive_details": {
+            "reports": 5,
+            "news": -2,
+            "documents": 4,
+            "confidence": 4,
+            "volatility": 3,
+            "variation": 2,
+            "yahoo_pespective": -1
+        },
+        "documents": [
+            {
+                "title": "Apple Q1 Earnings Report",
+                "url": "https://www.apple.com/investor/earnings/q1-2024/",
+                "summary": "Apple Inc. reported its Q1 2024 earnings, showcasing strong revenue growth driven by iPhone sales and services.",
+                "score": 9,
+                "confidence": 8
+            },
+            {
+                "title": "Apple Newsroom",
+                "url": "https://www.apple.com/newsroom/",
+                "summary": "Latest news and updates from Apple, including product launches, corporate announcements, and innovation highlights.",
+                "score": 8,
+                "confidence": 7
+            }
+        ],
+        "justification": "Last reports show strong performance in Q1 2024 with significant revenue growth, supported by positive news coverage and corporate announcements."
+    },
+    {
+        "case_size": 10,
+        "name": "Microsoft",
+        "stock_name": "MSFT",
+        "stock_exchange": "NASDAQ",
+        "continent": "North America",
+        "country": "USA",
+        "sector": "Technology",
+        "industry": "Software—Infrastructure",
+        "market_cap": 2000000000000,
+        "perspective": -1,
+        "perseptive_details": {
+            "reports": 5,
+            "news": -2,
+            "documents": 4,
+            "confidence": 4,
+            "volatility": 3,
+            "variation": 2,
+            "yahoo_pespective": -1
+        },
+        "documents": [
+            {
+                "title": "Miscrosoft Q1 Earnings Report",
+                "url": "https://www.apple.com/investor/earnings/q1-2024/",
+                "summary": "Apple Inc. reported its Q1 2024 earnings, showcasing strong revenue growth driven by iPhone sales and services.",
+                "score": 9,
+                "confidence": 8
+            },
+            {
+                "title": "Apple Newsroom",
+                "url": "https://www.apple.com/newsroom/",
+                "summary": "Latest news and updates from Apple, including product launches, corporate announcements, and innovation highlights.",
+                "score": -5,
+                "confidence": 7
+            }
+        ],
+        "justification": "Last reports show strong performance in Q1 2024 with significant revenue growth, supported by positive news coverage and corporate announcements."
+    }
+]

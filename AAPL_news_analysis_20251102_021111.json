@@ -1,0 +1,149 @@
+{
+  "ticker": "AAPL",
+  "analysis_date": "2025-11-02 02:11:11",
+  "news_analyzed": 10,
+  "ai_platform": "Amazon Bedrock",
+  "model": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+  "news_items": [
+    {
+      "uuid": "fa51ee87-9130-3ceb-8e5d-bbd82ca0fe5f",
+      "title": "Trump announces 100% chip tariff as Apple ups U.S. investment",
+      "publisher": "Investing.com",
+      "published_date": "2025-08-07 00:00:00",
+      "link": "https://finance.yahoo.com/news/trump-announces-100-chip-tariff-230713649.html",
+      "content": "Trump announces 100% chip tariff as Apple ups U.S. investment",
+      "scores": {
+        "sentiment_score": 4,
+        "likelihood_score": 8,
+        "impact_score": 7,
+        "explanation": "A 100% chip tariff would significantly increase Apple's production costs, though their increased U.S. investment may partially offset this negative impact. The tariff announcement from Trump appears credible but implementation details are unclear. This policy would materially affect Apple's supply chain and cost structure, likely impacting margins and stock valuation."
+      }
+    },
+    {
+      "uuid": "88080da4-7b7a-3c94-9905-039e1bd3f7af",
+      "title": "JPMorgan says Apple delivered \u2019masterclass\u2019 in managing geopolitics",
+      "publisher": "Investing.com",
+      "published_date": "2025-08-07 00:00:00",
+      "link": "https://finance.yahoo.com/news/jpmorgan-says-apple-delivered-masterclass-124112515.html",
+      "content": "JPMorgan says Apple delivered \u2019masterclass\u2019 in managing geopolitics",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 10,
+        "impact_score": 6,
+        "explanation": "JPMorgan's positive assessment of Apple's geopolitical management capabilities is highly favorable for the stock, especially given current global tensions. The analysis comes from a major investment bank and refers to already demonstrated performance, making it highly credible. While important for investor confidence, geopolitical management is just one of many factors affecting Apple's stock price."
+      }
+    },
+    {
+      "uuid": "e98a4d53-c259-4482-a3ea-66f74f3fa6ef",
+      "title": "Apple announces additional $100 billion in US investment, following Trump iPhone tariff threat",
+      "publisher": "Yahoo Finance",
+      "published_date": "2025-08-07 00:00:00",
+      "link": "https://finance.yahoo.com/news/apple-announces-additional-100-billion-in-us-investment-following-trump-iphone-tariff-threat-210803143.html",
+      "content": "Apple announces additional $100 billion in US investment, following Trump iPhone tariff threat",
+      "scores": {
+        "sentiment_score": 7,
+        "likelihood_score": 8,
+        "impact_score": 8,
+        "explanation": "The $100B US investment announcement is positive for AAPL as it likely helps avoid potential tariffs and strengthens political goodwill. The substantial investment amount and direct response to tariff threats suggests high likelihood of implementation. The combination of large capital commitment and tariff implications could significantly impact stock price through both operational and political channels."
+      }
+    },
+    {
+      "uuid": "7c0ea4f0-b0ce-314e-a5c9-cd16b7d30bab",
+      "title": "Apple Raises US Investment to $600 Billion as Trump Eyes 100% Chip Tariffs",
+      "publisher": "MT Newswires",
+      "published_date": "2025-08-07 00:00:00",
+      "link": "https://finance.yahoo.com/news/apple-raises-us-investment-600-104108645.html",
+      "content": "Apple Raises US Investment to $600 Billion as Trump Eyes 100% Chip Tariffs",
+      "scores": {
+        "sentiment_score": 6,
+        "likelihood_score": 8,
+        "impact_score": 7,
+        "explanation": "The $600B US investment commitment is positive for AAPL's domestic presence and political goodwill, but potential 100% chip tariffs pose a significant risk. The investment announcement appears concrete while tariffs are still under consideration, creating mixed sentiment. The combination of major investment and potential tariffs would have substantial impact on AAPL's operations and costs."
+      }
+    },
+    {
+      "uuid": "0f804586-2159-3bf1-b952-c774c4460ecf",
+      "title": "Apple Expands 18-Year-Old iPhone Glass Deal in Bid to Avoid Trump Tariffs",
+      "publisher": "Bloomberg",
+      "published_date": "2025-08-07 00:00:00",
+      "link": "https://finance.yahoo.com/news/apple-expands-18-old-iphone-010914864.html",
+      "content": "Apple Expands 18-Year-Old iPhone Glass Deal in Bid to Avoid Trump Tariffs",
+      "scores": {
+        "sentiment_score": 7,
+        "likelihood_score": 9,
+        "impact_score": 6,
+        "explanation": "Apple's strategic move to expand an existing glass supply deal suggests proactive management of tariff risks, which is positive for maintaining profit margins. The long-standing 18-year relationship indicates stability and reliability in the supply chain. The impact is moderate as it helps mitigate potential tariff costs but isn't a complete solution to all trade-related challenges."
+      }
+    },
+    {
+      "uuid": "68319440-cc0f-3c01-b633-2d47645e414b",
+      "title": "Apple Announces $100 Billion US Investment Ahead of Trump Event",
+      "publisher": "Bloomberg",
+      "published_date": "2025-08-07 00:00:00",
+      "link": "https://finance.yahoo.com/news/trump-apple-announce-fresh-100-130329501.html",
+      "content": "Apple Announces $100 Billion US Investment Ahead of Trump Event",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 9,
+        "impact_score": 7,
+        "explanation": "A $100 billion US investment announcement is highly positive for Apple's image and long-term growth prospects, especially with political implications. The timing ahead of a Trump event suggests it's a concrete plan rather than speculation. This scale of investment would significantly impact investor confidence and stock performance, though some effects may already be priced in."
+      }
+    },
+    {
+      "uuid": "ddf4b40b-35d8-39a8-ac71-2ab9afc53703",
+      "title": "Apple's New $100 Billion US Investment, Manufacturing Program May Shield Products From Tariffs, BofA Says",
+      "publisher": "MT Newswires",
+      "published_date": "2025-08-07 00:00:00",
+      "link": "https://finance.yahoo.com/news/apple-apos-100-billion-us-153438082.html",
+      "content": "Apple's New $100 Billion US Investment, Manufacturing Program May Shield Products From Tariffs, BofA Says",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 7,
+        "impact_score": 7,
+        "explanation": "A $100B US investment program would significantly reduce Apple's exposure to tariff risks and strengthen its domestic manufacturing presence. BofA's analysis adds credibility to the potential strategy, and the large investment amount could meaningfully impact Apple's operations and cost structure. This move would be viewed very positively by investors and could provide both political and economic advantages."
+      }
+    },
+    {
+      "uuid": "1c152b80-e9f6-3122-8aeb-0682cfaabde9",
+      "title": "Apple Stock Rallies on Trump\u2019s Plan for \u2018Make in America\u2019 Tariff Exemptions",
+      "publisher": "The Wall Street Journal",
+      "published_date": "2025-08-08 00:00:00",
+      "link": "https://finance.yahoo.com/m/1c152b80-e9f6-3122-8aeb-0682cfaabde9/apple-stock-rallies-on.html",
+      "content": "Apple Stock Rallies on Trump\u2019s Plan for \u2018Make in America\u2019 Tariff Exemptions",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 6,
+        "impact_score": 7,
+        "explanation": "Tariff exemptions would significantly reduce Apple's manufacturing costs and protect its margins, especially given its heavy reliance on Chinese manufacturing. While the plan is not yet implemented, it represents a major potential positive for Apple's business model, though political plans can be subject to change."
+      }
+    },
+    {
+      "uuid": "0b58884e-ebe4-41ac-8b52-7ae7a016080a",
+      "title": "Apple is back on Trump's good side. The cost? $600 billion.",
+      "publisher": "Yahoo Finance",
+      "published_date": "2025-08-08 00:00:00",
+      "link": "https://finance.yahoo.com/news/apple-is-back-on-trumps-good-side-the-cost-600-billion-113413035.html",
+      "content": "Apple is back on Trump's good side. The cost? $600 billion.",
+      "scores": {
+        "sentiment_score": 6,
+        "likelihood_score": 8,
+        "impact_score": 7,
+        "explanation": "Improved relations with Trump could reduce political/regulatory risks for Apple, which is generally positive for the stock. The $600B cost mentioned suggests a significant financial commitment, but potentially for business expansion or US manufacturing which investors often view favorably. The impact is substantial given Trump's influence on trade policies and regulations affecting Apple's business."
+      }
+    },
+    {
+      "uuid": "5ddeaab5-18d7-3166-aee8-46abc0e9f864",
+      "title": "Trump's 100% Chip Tariff Rocks Tech -- But Apple Just Scored the Biggest Exemption Deal Yet",
+      "publisher": "GuruFocus.com",
+      "published_date": "2025-08-30 00:00:00",
+      "link": "https://finance.yahoo.com/news/trumps-100-chip-tariff-rocks-200734588.html",
+      "content": "Trump's 100% Chip Tariff Rocks Tech -- But Apple Just Scored the Biggest Exemption Deal Yet",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 10,
+        "impact_score": 9,
+        "explanation": "The news is highly positive for Apple as they secured an exemption from Trump's 100% chip tariffs, while other tech companies will be negatively impacted. This is confirmed news (not speculation) and represents a major competitive advantage for Apple. The impact is significant as chip costs directly affect profit margins and competitive positioning in the tech industry."
+      }
+    }
+  ]
+}

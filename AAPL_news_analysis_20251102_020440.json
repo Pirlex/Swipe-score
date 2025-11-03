@@ -1,0 +1,149 @@
+{
+  "ticker": "AAPL",
+  "analysis_date": "2025-11-02 02:04:40",
+  "news_analyzed": 10,
+  "ai_platform": "Amazon Bedrock",
+  "model": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+  "news_items": [
+    {
+      "uuid": "e98a4d53-c259-4482-a3ea-66f74f3fa6ef",
+      "title": "Apple announces additional $100 billion in US investment, following Trump iPhone tariff threat",
+      "publisher": "Yahoo Finance",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/news/apple-announces-additional-100-billion-in-us-investment-following-trump-iphone-tariff-threat-210803143.html",
+      "content": "Apple announces additional $100 billion in US investment, following Trump iPhone tariff threat",
+      "scores": {
+        "sentiment_score": 7,
+        "likelihood_score": 10,
+        "impact_score": 8,
+        "explanation": "A $100B US investment commitment is significantly positive for AAPL's public image and domestic operations, though partially reactive to tariff threats. The announcement is confirmed (not speculative) and represents a major capital commitment that could influence both government relations and investor confidence. The scale of investment and political implications make this highly impactful for the stock."
+      }
+    },
+    {
+      "uuid": "335d4814-5f75-3736-a0ae-cccca191daf0",
+      "title": "OpenAI to buy AI device startup from Apple veteran Jony Ive in $6.5 billion deal",
+      "publisher": "Bloomberg",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/news/openai-buy-ai-device-startup-025944574.html",
+      "content": "OpenAI to buy AI device startup from Apple veteran Jony Ive in $6.5 billion deal",
+      "scores": {
+        "sentiment_score": 4,
+        "likelihood_score": 5,
+        "impact_score": 3,
+        "explanation": "The news indicates that a former key Apple executive's startup is being acquired by OpenAI, which could be seen as slightly negative for Apple as it suggests potential competition in AI hardware. However, the impact on Apple is likely minimal as the company has significant resources and its own AI initiatives. The deal appears to be in discussion phase rather than confirmed."
+      }
+    },
+    {
+      "uuid": "a21e2b81-37ca-33a5-a17b-8eb22602dfc8",
+      "title": "Why Alphabet Stock Popped Friday",
+      "publisher": "Motley Fool",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/m/a21e2b81-37ca-33a5-a17b-8eb22602dfc8/why-alphabet-stock-popped.html",
+      "content": "Why Alphabet Stock Popped Friday",
+      "scores": {
+        "sentiment_score": 1,
+        "likelihood_score": 10,
+        "impact_score": 2,
+        "explanation": "This news is about Alphabet (Google) stock rising, which could potentially have a slightly negative impact on Apple as they are competitors in several markets. While the event has already occurred (high likelihood), the impact on AAPL is likely minimal since the news focuses on Alphabet's performance rather than direct competition with Apple."
+      }
+    },
+    {
+      "uuid": "a21e2b81-37ca-33a5-a17b-8eb22602dfc8",
+      "title": "Why Alphabet Stock Popped Friday",
+      "publisher": "Motley Fool",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/m/a21e2b81-37ca-33a5-a17b-8eb22602dfc8/why-alphabet-stock-popped.html",
+      "content": "Why Alphabet Stock Popped Friday",
+      "scores": {
+        "sentiment_score": 1,
+        "likelihood_score": 10,
+        "impact_score": 2,
+        "explanation": "This news is about Alphabet (Google) stock rising, which could potentially have a slightly negative impact on Apple as they are competitors in several markets. While the event has already occurred (high likelihood), the impact on AAPL is likely minimal since the news focuses on Alphabet's performance rather than direct competition with Apple."
+      }
+    },
+    {
+      "uuid": "640ed356-47b5-349f-8ce8-63ecd86f1bbb",
+      "title": "Apple Readies Its First Ever Touch-Screen MacBook",
+      "publisher": "Bloomberg",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/news/apple-readies-high-end-macbook-185231013.html",
+      "content": "Apple Readies Its First Ever Touch-Screen MacBook",
+      "scores": {
+        "sentiment_score": 7,
+        "likelihood_score": 6,
+        "impact_score": 6,
+        "explanation": "A touch-screen MacBook would represent a major shift in Apple's product strategy and could open up new market opportunities, potentially driving additional revenue. While Bloomberg is generally reliable for Apple news, this is still a future product rumor. The impact would be meaningful but not transformative, as MacBooks represent only a portion of Apple's total revenue."
+      }
+    },
+    {
+      "uuid": "5263a1e7-1bc4-39ec-9991-053507da28e4",
+      "title": "Apple\u2019s WWDC Was \u2018Underwhelming.\u2019 Why Some Analysts Still Say Buy the Stock.",
+      "publisher": "Barrons.com",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/m/5263a1e7-1bc4-39ec-9991-053507da28e4/apple%E2%80%99s-wwdc-was.html",
+      "content": "Apple\u2019s WWDC Was \u2018Underwhelming.\u2019 Why Some Analysts Still Say Buy the Stock.",
+      "scores": {
+        "sentiment_score": 6,
+        "likelihood_score": 10,
+        "impact_score": 4,
+        "explanation": "While WWDC was described as 'underwhelming', analysts are still maintaining buy recommendations, suggesting overall positive sentiment despite initial disappointment. The event has already occurred, hence maximum likelihood score. The impact is moderate-to-low as WWDC announcements typically have limited immediate effect on stock price, especially when described as underwhelming."
+      }
+    },
+    {
+      "uuid": "e08550ce-ed7b-36c6-8749-d7a654e7405e",
+      "title": "Apple Shows How to Avoid Trump Tariff Pain. Why It\u2019s Not Great for Stock Markets and 4 Other Things to Know Today.",
+      "publisher": "Barrons.com",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/m/e08550ce-ed7b-36c6-8749-d7a654e7405e/apple-shows-how-to-avoid.html",
+      "content": "Apple Shows How to Avoid Trump Tariff Pain. Why It\u2019s Not Great for Stock Markets and 4 Other Things to Know Today.",
+      "scores": {
+        "sentiment_score": 6,
+        "likelihood_score": 8,
+        "impact_score": 5,
+        "explanation": "The news suggests Apple has found ways to mitigate potential tariff impacts, which is moderately positive for the company. The high likelihood score reflects that this appears to be about current strategies rather than speculation. The moderate impact score reflects that while tariff avoidance is important, it's likely already partially priced into the stock."
+      }
+    },
+    {
+      "uuid": "bc50d61d-e7c0-3648-8abf-250faa74e9f1",
+      "title": "BC-Most Active Stocks",
+      "publisher": "Associated Press Finance",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/news/bc-most-active-stocks-143016445.html",
+      "content": "BC-Most Active Stocks",
+      "scores": {
+        "sentiment_score": 5,
+        "likelihood_score": 10,
+        "impact_score": 2,
+        "explanation": "This appears to be a standard market activity report listing most active stocks, which is neutral in nature. While the data is factual and certain, being listed among most active stocks is a common occurrence for AAPL and typically has minimal impact on stock price."
+      }
+    },
+    {
+      "uuid": "88080da4-7b7a-3c94-9905-039e1bd3f7af",
+      "title": "JPMorgan says Apple delivered \u2019masterclass\u2019 in managing geopolitics",
+      "publisher": "Investing.com",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/news/jpmorgan-says-apple-delivered-masterclass-124112515.html",
+      "content": "JPMorgan says Apple delivered \u2019masterclass\u2019 in managing geopolitics",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 10,
+        "impact_score": 6,
+        "explanation": "JPMorgan's praise of Apple's geopolitical management capabilities is strongly positive for the stock, particularly given current global tensions. The assessment comes from a major Wall Street firm and is based on observed past performance, not speculation. While important for long-term investor confidence, geopolitical management alone typically has moderate direct impact on short-term stock price movements."
+      }
+    },
+    {
+      "uuid": "fc73bc23-9226-3943-9cf9-7162a03aa99b",
+      "title": "Skyworks and Qorvo Stocks Are Sells Now. It\u2019s About Apple\u2019s iPhone Sales.",
+      "publisher": "Barrons.com",
+      "published_date": "Unknown",
+      "link": "https://finance.yahoo.com/m/fc73bc23-9226-3943-9cf9-7162a03aa99b/skyworks-and-qorvo-stocks-are.html",
+      "content": "Skyworks and Qorvo Stocks Are Sells Now. It\u2019s About Apple\u2019s iPhone Sales.",
+      "scores": {
+        "sentiment_score": 3,
+        "likelihood_score": 7,
+        "impact_score": 4,
+        "explanation": "The negative outlook for Apple suppliers Skyworks and Qorvo suggests concerns about iPhone sales volumes, which could indicate weakening demand for Apple products. However, supplier issues don't always directly correlate with Apple's performance, and the company has historically maintained margins even during supplier challenges."
+      }
+    }
+  ]
+}

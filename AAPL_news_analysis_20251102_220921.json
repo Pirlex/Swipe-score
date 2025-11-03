@@ -1,0 +1,149 @@
+{
+  "ticker": "AAPL",
+  "analysis_date": "2025-11-02 22:09:21",
+  "news_analyzed": 10,
+  "ai_platform": "Amazon Bedrock",
+  "model": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+  "news_items": [
+    {
+      "uuid": "fcb195bc-9047-35dc-8962-ed8b2352985c",
+      "title": "Apple Jumps 5.1% After $100 Billion U.S. Manufacturing Pledge",
+      "publisher": "Zacks",
+      "report_date": "2025-08-07",
+      "link": "https://finance.yahoo.com/news/apple-jumps-5-1-100-121100958.html",
+      "content": "Apple Jumps 5.1% After $100 Billion U.S. Manufacturing Pledge",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 10,
+        "impact_score": 7,
+        "explanation": "The $100B manufacturing commitment demonstrates strong confidence in US operations and likely appeals to both investors and policymakers. The 5.1% stock jump shows immediate positive market reaction. The large investment signals long-term growth plans while potentially reducing geopolitical risks associated with overseas manufacturing."
+      }
+    },
+    {
+      "uuid": "e98a4d53-c259-4482-a3ea-66f74f3fa6ef",
+      "title": "Apple announces additional $100 billion in US investment, following Trump iPhone tariff threat",
+      "publisher": "Yahoo Finance",
+      "report_date": "2025-08-07",
+      "link": "https://finance.yahoo.com/news/apple-announces-additional-100-billion-in-us-investment-following-trump-iphone-tariff-threat-210803143.html",
+      "content": "Apple announces additional $100 billion in US investment, following Trump iPhone tariff threat",
+      "scores": {
+        "sentiment_score": 7,
+        "likelihood_score": 8,
+        "impact_score": 8,
+        "explanation": "A $100B US investment commitment is a significant positive signal for Apple's domestic operations and could help mitigate political/tariff risks. The move appears to be a strategic response to tariff threats, suggesting high likelihood of implementation. The scale of investment and potential tariff avoidance would have substantial impact on Apple's operations and stock valuation."
+      }
+    },
+    {
+      "uuid": "7c0ea4f0-b0ce-314e-a5c9-cd16b7d30bab",
+      "title": "Apple Raises US Investment to $600 Billion as Trump Eyes 100% Chip Tariffs",
+      "publisher": "MT Newswires",
+      "report_date": "2025-08-07",
+      "link": "https://finance.yahoo.com/news/apple-raises-us-investment-600-104108645.html",
+      "content": "Apple Raises US Investment to $600 Billion as Trump Eyes 100% Chip Tariffs",
+      "scores": {
+        "sentiment_score": 6,
+        "likelihood_score": 8,
+        "impact_score": 7,
+        "explanation": "The increased US investment by Apple ($600B) is a positive signal showing strong domestic commitment, though partially offset by potential negative impact from Trump's proposed chip tariffs. The investment amount appears concrete while the tariffs are still speculative. This combination of factors would likely have a significant impact on AAPL's stock price given the scale of investment and potential tariff implications."
+      }
+    },
+    {
+      "uuid": "68319440-cc0f-3c01-b633-2d47645e414b",
+      "title": "Apple Announces $100 Billion US Investment Ahead of Trump Event",
+      "publisher": "Bloomberg",
+      "report_date": "2025-08-07",
+      "link": "https://finance.yahoo.com/news/trump-apple-announce-fresh-100-130329501.html",
+      "content": "Apple Announces $100 Billion US Investment Ahead of Trump Event",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 7,
+        "impact_score": 7,
+        "explanation": "A $100B US investment announcement is highly positive for AAPL's public image and long-term growth prospects in its key market. The timing ahead of a Trump event suggests political positioning, which could help secure favorable policy treatment. The large investment size and domestic focus should resonate well with investors and potentially drive stock appreciation."
+      }
+    },
+    {
+      "uuid": "1c152b80-e9f6-3122-8aeb-0682cfaabde9",
+      "title": "Apple Stock Rallies on Trump\u2019s Plan for \u2018Make in America\u2019 Tariff Exemptions",
+      "publisher": "The Wall Street Journal",
+      "report_date": "2025-08-08",
+      "link": "https://finance.yahoo.com/m/1c152b80-e9f6-3122-8aeb-0682cfaabde9/apple-stock-rallies-on.html",
+      "content": "Apple Stock Rallies on Trump\u2019s Plan for \u2018Make in America\u2019 Tariff Exemptions",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 5,
+        "impact_score": 7,
+        "explanation": "Potential tariff exemptions would significantly reduce Apple's manufacturing costs and protect their margins on products made in China. However, this is still a plan/proposal rather than confirmed policy, and depends on future political outcomes. The market's positive reaction indicates investors view this as a major potential catalyst for Apple's business model."
+      }
+    },
+    {
+      "uuid": "a4fd4c66-a9bf-369a-9dda-cb171d9ad99e",
+      "title": "Apple's $600 Billion U.S. Investment Could Reshape Its Future",
+      "publisher": "Motley Fool",
+      "report_date": "2025-08-10",
+      "link": "https://finance.yahoo.com/m/a4fd4c66-a9bf-369a-9dda-cb171d9ad99e/apple%27s-%24600-billion-u.s..html",
+      "content": "Apple's $600 Billion U.S. Investment Could Reshape Its Future",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 5,
+        "impact_score": 7,
+        "explanation": "A $600B US investment would be highly positive for Apple's long-term growth and domestic manufacturing capabilities, though the amount is very large even for Apple's cash reserves. Such a massive investment would significantly impact Apple's future operations and stock valuation, but the likelihood score is moderate since this appears to be a forward-looking announcement rather than a completed action."
+      }
+    },
+    {
+      "uuid": "aa6d4ee1-1bb9-3678-93a2-ff1d2e359744",
+      "title": "Apple announces five-year partnership as U.S. broadcast partner for Formula 1",
+      "publisher": "TipRanks",
+      "report_date": "2025-10-18",
+      "link": "https://finance.yahoo.com/m/aa6d4ee1-1bb9-3678-93a2-ff1d2e359744/apple-announces-five-year.html",
+      "content": "Apple announces five-year partnership as U.S. broadcast partner for Formula 1",
+      "scores": {
+        "sentiment_score": 7,
+        "likelihood_score": 10,
+        "impact_score": 4,
+        "explanation": "This partnership represents a positive move for Apple as it expands its sports content portfolio and strengthens Apple TV+'s offerings. While Formula 1 has growing popularity in the US, the financial impact is relatively modest compared to Apple's overall revenue streams. The deal is confirmed and official, hence the high likelihood score."
+      }
+    },
+    {
+      "uuid": "cbbc28ed-4749-3aea-bb61-ee060faf2fa0",
+      "title": "Apple (AAPL) Q4 Earnings and Revenues Beat Estimates",
+      "publisher": "Zacks",
+      "report_date": "2025-10-31",
+      "link": "https://finance.yahoo.com/news/apple-aapl-q4-earnings-revenues-214002311.html",
+      "content": "Apple (AAPL) Q4 Earnings and Revenues Beat Estimates",
+      "scores": {
+        "sentiment_score": 8,
+        "likelihood_score": 10,
+        "impact_score": 7,
+        "explanation": "Beating both earnings and revenue estimates is strongly positive for Apple's stock as it demonstrates the company's continued financial strength and ability to exceed market expectations. The news is confirmed earnings data so likelihood is certain. The impact is significant as earnings reports typically drive major stock price movements, though the market may have partially priced in positive results."
+      }
+    },
+    {
+      "uuid": "9bdcfbb5-3568-3124-a2fb-244186b81d73",
+      "title": "Market Chatter: Globalstar Explores Sale, Holds Early Talks With SpaceX",
+      "publisher": "MT Newswires",
+      "report_date": "2025-10-31",
+      "link": "https://finance.yahoo.com/news/market-chatter-globalstar-explores-sale-192320412.html",
+      "content": "Market Chatter: Globalstar Explores Sale, Holds Early Talks With SpaceX",
+      "scores": {
+        "sentiment_score": 4,
+        "likelihood_score": 3,
+        "impact_score": 3,
+        "explanation": "While Globalstar is Apple's satellite partner for Emergency SOS, a potential sale to SpaceX could create uncertainty around this partnership. The news is still in early speculation phase with only preliminary talks reported. The impact on Apple would be limited since satellite features are not a core revenue driver for the company."
+      }
+    },
+    {
+      "uuid": "c56c6928-c549-3d23-81f5-aeac70568e0a",
+      "title": "Heard on the Street Recap: Market Streak",
+      "publisher": "The Wall Street Journal",
+      "report_date": "2025-11-01",
+      "link": "https://finance.yahoo.com/m/c56c6928-c549-3d23-81f5-aeac70568e0a/heard-on-the-street-recap%3A.html",
+      "content": "Heard on the Street Recap: Market Streak",
+      "scores": {
+        "sentiment_score": 5,
+        "likelihood_score": 5,
+        "impact_score": 0,
+        "explanation": "The title alone provides insufficient information to make any meaningful assessment about AAPL specifically. Without actual content about Apple in the article, there's no basis to determine sentiment or impact on the stock."
+      }
+    }
+  ]
+}

@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Datathon 2025 — Vanilla JS</title>
+  <style>
+    :root{
+      /* Palette Tinder rouge */
+      --brand-a:#ff4458; /* tinder red */
+      --brand-b:#ff4458; /* uniform red (no pink) */
+      --bg:	#ffffff; --panel:#f4f6f8; --muted:#a0aec0; --text:#424242;
+      --pass:#ff4458; --like:#2fe08e; --rewind:#f7d12e;
+    }
+    /* Prefer Gotham Rounded if installed (local only) */
+    @font-face {
+      font-family: 'Gotham Rounded';
+      src: local('Gotham Rounded'), local('GothamRounded-Book'), local('Gotham Rounded Book');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Gotham Rounded';
+      src: local('Gotham Rounded Medium'), local('GothamRounded-Medium');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Gotham Rounded';
+      src: local('Gotham Rounded Bold'), local('GothamRounded-Bold');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    *{box-sizing:border-box}
+    html,body{min-height:100%}
+    body{margin:0;min-height:100vh;background:linear-gradient(135deg,#ff7854 0%, #fd267a 100%);color:var(--text);font:18px/1.5 'Gotham Rounded','Avenir Next Rounded','Nunito',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
+    .wrap{min-height:100svh;display:flex;flex-direction:column;align-items:center}
+
+    header{width:100%;max-width:1200px;padding:22px 16px 8px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px}
+    h1{margin:0;font-size:32px;letter-spacing:-0.02em;color:#ffffff}
+    .hint{color:#ffffff;font-size:16px;display:flex;gap:8px;align-items:center}
+    .hint kbd{font-size:inherit;color:inherit}
+    kbd{border:1px solid rgba(255,255,255,0.45);background:rgba(255,255,255,0.12);padding:2px 6px;border-radius:6px;color:inherit}
+
+    .grid{width:100%;max-width:1200px;padding:0 16px 24px;display:grid;grid-template-columns:1fr 360px;gap:24px}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+
+    .deck-box{position:relative;height:760px;display:flex;align-items:center;justify-content:center}
+    .stack{position:relative;width:100%;max-width:760px;height:700px}
+
+    .card{position:absolute;inset:0;background:rgba(255,255,255,0.88);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.18);overflow:hidden;border:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .35s ease, box-shadow .35s ease, opacity .35s ease}
+    .card::before{content:"";position:absolute;inset:0;opacity:.12;background:radial-gradient(900px 600px at -10% -10%,var(--brand-b),transparent 48%),radial-gradient(900px 500px at 110% 10%,var(--brand-a),transparent 52%);} 
+
+    .row{display:flex;gap:16px;align-items:flex-start;justify-content:space-between}
+    .h2{font-size:30px;font-weight:800;margin:0}
+    .sub{color:var(--text);font-size:16px;margin-top:4px}
+    
+
+    /* logo */
+    .logo{width:56px;height:56px;border-radius:16px;overflow:hidden;background:rgba(255,255,255,0.9);display:grid;place-items:center;box-shadow:0 18px 36px rgba(0,0,0,.15)}
+    .logo img{width:100%;height:100%;object-fit:cover}
+
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:0;background:rgba(255,255,255,0.82);font-size:14px;box-shadow:0 12px 24px rgba(0,0,0,.08)}
+    .card-inner{position:relative;height:100%;padding:28px;display:flex;flex-direction:column;overflow:hidden}
+    .card-content{flex:1 1 auto;overflow:auto;padding-right:16px;margin-right:0;padding-bottom:120px;scrollbar-gutter:stable both-edges;overscroll-behavior:contain}
+    .score-badge{font-weight:700;min-width:148px;justify-content:center;padding:12px 20px;font-size:18px;animation:badgePulse 3.8s ease-in-out infinite alternate}
+    .score-main{display:flex;justify-content:flex-end;align-items:flex-end;min-width:160px;margin-left:auto}
+    .metrics{margin:18px 0 12px;display:grid;gap:12px;grid-template-columns:repeat(4,minmax(0,1fr))}
+    @media(max-width:960px){ .metrics{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @media(max-width:620px){ .metrics{grid-template-columns:1fr;} }
+    .metric-card{background:rgba(255,255,255,0.85);border-radius:16px;padding:12px 38px 12px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 28px rgba(0,0,0,.12);position:relative;cursor:default;transition:box-shadow .2s ease, transform .2s ease}
+    .metric-card[data-toggle]{cursor:pointer}
+    .metric-card[data-toggle]::after{content:'▾';font-size:13px;color:#475569;position:absolute;top:12px;right:14px;transition:transform .2s ease}
+    .metric-card.is-open::after{transform:rotate(-180deg)}
+    .metric-card[data-toggle]:hover{box-shadow:0 18px 34px rgba(0,0,0,.16);transform:translateY(-2px)}
+    .metric-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#475569}
+    .metric-value{font-size:20px;font-weight:700;color:#1f2933}
+    .metric-sub{font-size:12px;color:#64748b}
+    details.detail-block{margin-top:12px;background:rgba(255,255,255,0.82);border-radius:16px;box-shadow:0 12px 26px rgba(0,0,0,.12);padding:10px 14px}
+    details.detail-block summary{cursor:pointer;font-weight:600;font-size:14px;color:#1f2933;display:flex;align-items:center;gap:8px;list-style:none}
+    details.detail-block summary .summary-hint{font-size:11px;font-weight:500;color:#64748b;margin-left:auto}
+    details.detail-block[open]{background:rgba(255,255,255,0.92)}
+    details.detail-block summary::-webkit-details-marker{display:none}
+    .detail-rows{margin-top:8px;display:grid;gap:10px}
+    .detail-row{background:rgba(0,0,0,0.04);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;color:#1f2933}
+    .detail-row-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .detail-label{font-weight:600;font-size:13px;color:#1f2933;text-decoration:none}
+    .detail-label:hover{text-decoration:underline}
+    .detail-value{font-weight:700;font-size:14px;color:#0f172a}
+    .detail-hint{font-size:12px;color:#64748b}
+    .detail-empty{font-size:13px;color:#64748b;padding:6px 2px}
+    .docs{margin-top:12px;max-height:160px;overflow:auto;display:grid;gap:10px}
+    .doc{display:flex;flex-direction:column;gap:6px;border:0;background:rgba(255,255,255,0.72);border-radius:16px;padding:12px 14px;color:#1f2933;box-shadow:0 16px 30px rgba(0,0,0,.08);transition:transform .25s ease, box-shadow .25s ease}
+    .doc:hover{transform:translateY(-2px);box-shadow:0 22px 40px rgba(0,0,0,.12)}
+    .doc-disabled{opacity:.52}
+    .doc-header{display:flex;align-items:center;gap:10px}
+    .doc-title{flex:1;font-weight:600;color:#1f2933;text-decoration:none;}
+    .doc-title:hover{text-decoration:underline}
+    .doc-meta{font-size:12px;color:#475569}
+    .doc-summary{font-size:13px;color:#64748b}
+    .doc-check{width:18px;height:18px;accent-color:var(--brand-a)}
+    .just{margin-top:10px;color:var(--text);font-size:16px}
+
+    /* Tinder-style action buttons */
+    .actions{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:22px;pointer-events:none}
+    .cbtn{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;border:0;cursor:pointer;box-shadow:0 28px 50px rgba(0,0,0,.22);font-size:28px;user-select:none;background:rgba(255,255,255,0.92);transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;pointer-events:auto;filter:drop-shadow(0 22px 32px rgba(253,86,120,.18));animation:glowPulse 4.5s ease-in-out infinite}
+    .cbtn:hover{transform:translateY(-6px) scale(1.04);box-shadow:0 32px 60px rgba(0,0,0,.28);filter:drop-shadow(0 28px 38px rgba(253,86,120,.28));animation:none}
+    .cbtn:active{transform:scale(.95);filter:drop-shadow(0 12px 20px rgba(253,86,120,.25));animation:none}
+    .cbtn-pass{color:var(--pass)}
+    .cbtn-like{color:var(--like)}
+    .cbtn-rewind{color:#ffd84a}
+
+    .stamp{position:absolute;top:16px;left:16px;background:var(--like);color:#ffffff;padding:8px 16px;border-radius:14px;font-weight:900;letter-spacing:2px;opacity:0;transform:scale(.95);pointer-events:none;filter:drop-shadow(0 6px 18px rgba(0,0,0,.25));box-shadow:0 8px 24px rgba(47,224,142,.24);z-index:6}
+    .stamp.pass{left:auto;right:16px;background:var(--pass);box-shadow:0 8px 24px rgba(255,68,88,.28)}
+
+    /* right panel */
+    .panel{position:sticky;top:16px;background:rgba(255,255,255,0.88);border-radius:24px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;max-height:calc(100vh - 32px);overflow:auto;scrollbar-gutter:stable both-edges}
+    .panel h3{margin:0 0 6px 0}
+    .small{color:var(--text);font-size:13px}
+    #remain{font-size:16px;font-weight:600}
+    .filters{margin-top:14px;display:grid;gap:12px}
+    @media(min-width:800px){ .filters{grid-template-columns:repeat(3, minmax(0,1fr));gap:12px} }
+    .filter{display:flex;flex-direction:column;gap:4px}
+    .filter label{font-size:11px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.08em}
+    .filter select{appearance:none;border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,0.9);font-size:14px;box-shadow:0 8px 18px rgba(0,0,0,.08);color:#1f2933}
+    .list{margin-top:12px;display:grid;gap:14px}
+    .block .lab{color:var(--text);font-size:13px;text-transform:uppercase;margin-bottom:6px}
+    .ul{max-height:320px;overflow:auto;display:grid;gap:6px}
+    .li{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:16px;border:0;font-size:14px;background:rgba(255,255,255,0.68);box-shadow:0 16px 34px rgba(0,0,0,.1);gap:12px}
+    .li-content{display:flex;flex-direction:column;gap:3px;flex:1;color:inherit}
+    .li-name{font-weight:600;color:#1f2933}
+    .li-score{font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.04em}
+    .li-actions{display:flex;gap:6px}
+    .mini-btn{border:0;border-radius:10px;padding:6px 9px;font-size:12px;background:rgba(0,0,0,0.08);color:#1f2933;cursor:pointer;transition:transform .15s ease, background .15s ease}
+    .mini-btn:hover{transform:translateY(-1px);background:rgba(0,0,0,0.16)}
+    .mini-btn:active{transform:scale(.94)}
+    .li.entering{animation:listEnter .38s cubic-bezier(.21,1,.29,1)}
+    .li.like{background:rgba(47,224,142,0.18);border-left:4px solid #2fe08e}
+    .li.like .li-name{color:#0f7a54}
+    .li.pass{background:rgba(255,68,88,0.18);border-left:4px solid #ff4458}
+    .li.pass .li-name{color:#b91c1c}
+
+    .row-panel{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    .row-panel .btn{justify-content:center}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:16px;border:0;background:rgba(255,255,255,0.85);color:inherit;cursor:pointer;font-size:15px;box-shadow:0 16px 30px rgba(0,0,0,.12);transition:transform .2s ease, box-shadow .2s ease}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 22px 38px rgba(0,0,0,.18)}
+
+    /* Weights */
+    .weights{margin-top:18px;border-top:1px solid rgba(255,255,255,0.35);padding-top:16px}
+    .wrow{display:grid;grid-template-columns:120px 1fr 54px;gap:12px;align-items:center;margin:10px 0}
+    .wrow input[type=range]{width:100%;appearance:none;height:8px;border-radius:999px;background:linear-gradient(90deg,#ff7854,#fd267a);outline:none;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.18);transition:box-shadow .2s ease, transform .2s ease}
+    .wrow input[type=range]:hover{box-shadow:0 8px 18px rgba(0,0,0,.22);transform:translateY(-1px)}
+    .wrow input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;background:transparent}
+    .wrow input[type=range]::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:#ffffff;border:4px solid #fd267a;box-shadow:0 10px 22px rgba(0,0,0,.25);margin-top:-7px}
+    .wrow input[type=range]::-moz-range-track{height:8px;border-radius:999px;background:transparent}
+    .wrow input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#ffffff;border:4px solid #fd267a;box-shadow:0 10px 22px rgba(0,0,0,.25)}
+    .wrow input[type=range]::-ms-track{height:8px;border-radius:999px;background:transparent;border-color:transparent;color:transparent}
+    .wrow input[type=range]::-ms-thumb{width:22px;height:22px;border-radius:50%;background:#ffffff;border:4px solid #fd267a;box-shadow:0 10px 22px rgba(0,0,0,.25)}
+    .formula{font-size:12px;color:var(--muted);margin-top:8px}
+    .toggle{display:flex;gap:6px;align-items:center;margin-top:8px;font-size:12px;color:var(--muted)}
+
+    /* End-of-deck message overlay */
+    .end-msg{position:absolute; inset:0; display:none; align-items:center; justify-content:center; padding:16px}
+    .end-msg .box{background:rgba(255,255,255,0.9);border-radius:20px;padding:24px 30px;font-weight:700;color:#424242;box-shadow:0 40px 80px rgba(0,0,0,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+
+    /* global animations */
+    @keyframes glowPulse{0%,100%{filter:drop-shadow(0 22px 32px rgba(253,86,120,.14));}50%{filter:drop-shadow(0 30px 40px rgba(47,224,142,.28));}}
+    @keyframes badgePulse{0%{transform:translateY(0) scale(1);}100%{transform:translateY(-3px) scale(1.03);}}
+    @keyframes listEnter{0%{opacity:0;transform:translateY(12px) scale(.97);}100%{opacity:1;transform:translateY(0) scale(1);}}
+    /* enter/exit */
+    @keyframes cardReveal{from{opacity:1;transform:translateY(26px) scale(.94);filter:blur(8px) saturate(.9);}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0) saturate(1);}}
+    .card-incoming{animation:cardReveal .55s cubic-bezier(.21,1,.29,1)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><h1>Datathon 2025</h1></div>
+      <div class="hint">
+        <kbd>←</kbd> Pass <kbd>→</kbd> Like <span style="opacity:.6">|</span> <kbd>⌫</kbd>/<kbd>Z</kbd> Revenir
+      </div>
+    </header>
+
+    <div class="grid">
+      <main class="deck-box">
+        <div class="stack" id="stack"></div>
+
+        <!-- Message de fin -->
+        <div class="end-msg" id="endMsg">
+          <div class="box">Vous avez terminé</div>
+        </div>
+      </main>
+
+      <aside class="panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <h3>Vos sélections</h3>
+        </div>
+        <div class="small" id="remain">Cartes restantes : 0</div>
+
+        <div class="filters">
+          <div class="filter">
+            <label for="filterSector">Secteur</label>
+            <select id="filterSector">
+              <option value="">Tous les secteurs</option>
+            </select>
+          </div>
+          <div class="filter">
+            <label for="filterRegion">Région</label>
+            <select id="filterRegion">
+              <option value="">Toutes les régions</option>
+            </select>
+          </div>
+          <div class="filter">
+            <label for="filterCap">Market Cap</label>
+            <select id="filterCap">
+              <option value="">Toutes tailles</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="weights">
+          <div class="wrow"><label>Market Cap</label><input id="wCap" type="range" min="0" max="100" value="25"><span id="wCapV">0.25</span></div>
+          <div class="wrow"><label>Perspective</label><input id="wPer" type="range" min="0" max="100" value="25"><span id="wPerV">0.25</span></div>
+          <div class="wrow"><label>Docs</label><input id="wDoc" type="range" min="0" max="100" value="25"><span id="wDocV">0.25</span></div>
+          <div class="wrow"><label>Confiance</label><input id="wCon" type="range" min="0" max="100" value="25"><span id="wConV">0.25</span></div>
+        </div>
+
+        <div class="list">
+          <section class="block">
+            <div class="lab">Liked</div>
+            <div class="ul" id="ulLike"></div>
+          </section>
+          <section class="block">
+            <div class="lab">Passed</div>
+            <div class="ul" id="ulPass"></div>
+          </section>
+        </div>
+
+        <div class="row-panel">
+          <button class="btn" id="btnExport">Exporter</button>
+          <button class="btn" id="btnReset">Réinitialiser</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+<script>
+(function(){
+  // ---------- Utilities ----------
+  const $ = sel => document.querySelector(sel);
+  const el = (tag, cls, txt) => { const n=document.createElement(tag); if(cls) n.className=cls; if(txt!=null) n.textContent=txt; return n; };
+  const fmtCap = x => {
+    if (x == null) return '—';
+    const abs = Math.abs(x);
+    if (abs >= 1e12) return (x/1e12).toFixed(2)+'T';
+    if (abs >= 1e9) return (x/1e9).toFixed(2)+'B';
+    if (abs >= 1e6) return (x/1e6).toFixed(2)+'M';
+    return String(x);
+  };
+  const clamp = (n,min,max) => Math.max(min, Math.min(max, n));
+  const lerp = (a,b,t)=> a + (b-a)*t;
+  const hexToRgb = (hex)=>{
+    if (!hex) return {r:0,g:0,b:0};
+    let h = hex.replace('#','').trim();
+    if (h.length === 3) h = h.split('').map(c=>c+c).join('');
+    const num = parseInt(h,16);
+    return { r:(num>>16)&255, g:(num>>8)&255, b:num&255 };
+  };
+  const rgbToHex = (r,g,b)=>'#'+[r,g,b].map(v=>v.toString(16).padStart(2,'0')).join('');
+  const mixColor = (a,b,t)=>{
+    const ca = hexToRgb(a), cb = hexToRgb(b);
+    return rgbToHex(
+      Math.round(lerp(ca.r, cb.r, t)),
+      Math.round(lerp(ca.g, cb.g, t)),
+      Math.round(lerp(ca.b, cb.b, t))
+    );
+  };
+  const hexToRgba = (hex, alpha)=>{
+    const {r,g,b} = hexToRgb(hex);
+    return `rgba(${r},${g},${b},${alpha})`;
+  };
+  const readableOn = (hex)=>{
+    const {r,g,b} = hexToRgb(hex);
+    const luminance = (0.299*r + 0.587*g + 0.114*b)/255;
+    return luminance > 0.62 ? '#1f2933' : '#ffffff';
+  };
+
+  function initialsSVG(name){
+    const inits = (name||'?').split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='112' height='112'>
+<rect width='100%' height='100%' rx='20' ry='20' fill='url(#g)'/>
+<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='${getComputedStyle(document.documentElement).getPropertyValue('--brand-a').trim()}'/><stop offset='100%' stop-color='${getComputedStyle(document.documentElement).getPropertyValue('--brand-b').trim()}'/></linearGradient></defs>
+<text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,Segoe UI' font-size='44' fill='white' font-weight='700'>${inits}</text></svg>`;
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
+  function getLogoSrc(ticker){
+    try{
+        return 'https://www.pulserobotics.com/logos/' + ticker + '.png';
+    }catch(e){}
+    return initialsSVG(c.name);
+  }
+
+  // ---------- State ----------
+  let deck = [];
+  let liked = [], passed = [];
+  let history = []; // {type:'like'|'pass', company:c}
+  let allCompanies = [];
+  let prevLikedCount = 0, prevPassedCount = 0;
+  let animateNextTop = true;
+  let detailIdSeed = 0;
+
+  const stack = $('#stack');
+  const ulLike = $('#ulLike');
+  const ulPass = $('#ulPass');
+  const remain = $('#remain');
+  const endMsg = $('#endMsg'); // AJOUT
+
+  // Weights UI
+  const wCap = $('#wCap'), wPer=$('#wPer'), wDoc=$('#wDoc'), wCon=$('#wCon');
+  const wCapV=$('#wCapV'), wPerV=$('#wPerV'), wDocV=$('#wDocV'), wConV=$('#wConV');
+  const sliders = [wCap, wPer, wDoc, wCon];
+  const filterSector = $('#filterSector');
+  const filterRegion = $('#filterRegion');
+  const filterCap = $('#filterCap');
+  let isRebalancing = false;
+
+  // Default sample
+  let def;
+  fetch('/data.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    def = data;
+    loadDefault();
+  })
+  .catch(error => {
+    console.error('Error fetching JSON:', error);
+  });
+
+
+
+  function normalizeFields(arr){
+    return arr.map((c,i)=>{
+      const docs = Array.isArray(c.documents) ? c.documents.map(d=>({...d})) : [];
+      const news = Array.isArray(c.news) ? c.news.map(n=>({...n})) : [];
+      const rawPerspective = c.perspective_details || c.perseptive_details || {};
+      const perspectiveDetails = {...rawPerspective};
+      if (perspectiveDetails.yahoo_perspective == null && perspectiveDetails.yahoo_pespective != null){
+        perspectiveDetails.yahoo_perspective = perspectiveDetails.yahoo_pespective;
+      }
+      if (perspectiveDetails.yahoo_perspective_explanation == null && perspectiveDetails.yahoo_pespective_explanation != null){
+        perspectiveDetails.yahoo_perspective_explanation = perspectiveDetails.yahoo_pespective_explanation;
+      }
+      return{
+        ...c,
+        documents: docs,
+        news,
+        _docSelected: docs.map(()=>true),
+        name: c.name || c.company || `Entreprise ${i+1}`,
+        stock_name: c.stock_name || c.ticker || c.symbol || '',
+        sector: c.sector || c.industry || c.category || '',
+        // Mappe automatiquement depuis d'anciens schémas
+        perspective_evolution: c.perspective_evolution ?? c.perspective ?? c.perf ?? 0,
+        confidence_perspective: c.confidence_perspective ?? c?.perspective_details?.confidence ?? c?.perseptive_details?.confidence ?? 0,
+        documents_submitted_impact: c.documents_submitted_impact ?? c?.perspective_details?.documents ?? c?.perseptive_details?.documents ?? 0,
+        perspective_details: perspectiveDetails,
+      };
+    });
+  }
+
+  const FIELD_DESCRIPTIONS = {
+    reports: 'Nombre de rapports reçus récemment',
+    documents: 'Impact des documents fournis',
+    news: 'Signal positif ou négatif venant des nouvelles',
+    confidence: 'Niveau de certitude sur la perspective (0-10)',
+    variation: 'Évolution de la perspective sur la période récente',
+    volatility: 'Volatilité perçue du dossier',
+    yahoo_perspective: 'Perspective synthèse venant de Yahoo Finance',
+    documents_submitted_impact: 'Score d\'impact des documents transmis',
+    perspective_evolution: 'Variation prévue à court terme',
+    confidence_perspective: 'Confiance associée à la perspective (0-10)'
+  };
+
+  const CAP_BUCKETS = [
+    { value: '', label: 'Toutes tailles', test: ()=>true },
+    { value: 'mega', label: '≥ 1 000B', test: mc => mc >= 1_000_000_000_000 },
+    { value: 'large', label: '500B – 1 000B', test: mc => mc >= 500_000_000_000 && mc < 1_000_000_000_000 },
+    { value: 'mid', label: '100B – 500B', test: mc => mc >= 100_000_000_000 && mc < 500_000_000_000 },
+    { value: 'small', label: '< 100B', test: mc => mc > 0 && mc < 100_000_000_000 }
+  ];
+  const CAP_BUCKET_MAP = Object.fromEntries(CAP_BUCKETS.map(b=>[b.value, b]));
+  const PERSPECTIVE_COMPONENTS = {
+    reports: { label: 'Rapports 10Q/10K', hint: 'Analyse des derniers rapports financiers déposés', map: val => mapToFive(val, -5, 5), fields: ['reports'] },
+    news: { label: 'Actualités', hint: 'Sentiment et tonalité des nouvelles récentes', map: val => mapToFive(val, -5, 5), fields: ['news'] },
+    documents: { label: 'Documents', hint: 'Synthèse qualitative des documents analysés', map: val => mapToFive(val, -5, 5), fields: ['documents'] },
+    confidence: { label: 'Confiance analystes', hint: 'Niveau de confiance attribué au signal (0-5)', map: val => mapToFive(val, 0, 5), fields: ['confidence'] },
+    volatility: { label: 'Volatilité 1w/1m/1y', hint: 'Stabilité du titre sur différentes périodes', map: val => 5 - mapToFive(val, 0, 10), fields: ['volatility'] },
+    variation: { label: 'Variation 1w/1m/1y', hint: 'Performance récente du titre', map: val => mapToFive(val, -5, 5), fields: ['variation'] },
+    yahoo_perspective: { label: 'Prévisions Yahoo', hint: 'Projection externe (Yahoo Finance)', map: val => mapToFive(val, -5, 5), fields: ['yahoo_perspective','yahoo_pespective'] }
+  };
+
+  function mapToFive(value, min, max){
+    if (!Number.isFinite(value)) return 2.5;
+    const clamped = clamp(value, min, max);
+    const ratio = (clamped - min) / (max - min);
+    return clamp(ratio * 5, 0, 5);
+  }
+
+  function perspectiveBreakdown(c){
+    const det = c.perspective_details || {};
+    const items = [];
+    Object.entries(PERSPECTIVE_COMPONENTS).forEach(([key, meta])=>{
+      const fieldNames = meta.fields || [key];
+      const valueName = fieldNames.find(name => Number.isFinite(det[name]));
+      if (valueName == null) return;
+      const rawValue = Number(det[valueName]);
+      const score = clamp(meta.map(rawValue), 0, 5);
+      const explanationName = fieldNames
+        .map(name => `${name}_explanation`)
+        .find(name => typeof det[name] === 'string' && det[name].trim() !== '');
+      const explanation = explanationName ? det[explanationName].trim() : (FIELD_DESCRIPTIONS[key] || meta.hint || '');
+      items.push({ key, label: meta.label, score, raw: rawValue, explanation });
+    });
+    if (!items.length){
+      return { items: [], score: null };
+    }
+    const score = items.reduce((sum,item)=> sum + item.score, 0) / items.length;
+    return { items, score };
+  }
+
+  function computeOverallScore(c, capNorm, perspNorm, docsNorm, confNorm, weights){
+    const capComponent = weights.cap * capNorm;
+    const perspectiveComponent = weights.persp * (perspNorm * confNorm);
+    const docsComponent = weights.docs * docsNorm;
+    const confidenceComponent = weights.conf * confNorm;
+    const total = capComponent + perspectiveComponent + docsComponent + confidenceComponent;
+    return clamp(total, 0, 1);
+  }
+
+  // ------- Score model -------
+  function computeScales(items){
+    if (!items.length) return { minCap:0, maxCap:0 };
+    const caps = items.map(c=> Math.log10(Math.max(1, Number(c.market_cap)||1)) );
+    const minC = Math.min(...caps), maxC = Math.max(...caps);
+    return { minCap:minC, maxCap:maxC };
+  }
+
+  function ensureDocSelection(c){
+    if (!Array.isArray(c.documents)){ c._docSelected = []; return; }
+    if (!Array.isArray(c._docSelected) || c._docSelected.length !== c.documents.length){
+      const current = Array.isArray(c._docSelected)? c._docSelected : [];
+      c._docSelected = c.documents.map((_,idx)=> current[idx] !== false);
+    }
+  }
+
+  function selectedDocs(c){
+    ensureDocSelection(c);
+    if (!Array.isArray(c.documents)) return [];
+    return c.documents.filter((_,idx)=> c._docSelected[idx] !== false);
+  }
+
+  function valDocs(c){
+    const docs = Array.isArray(c.documents) ? c.documents : [];
+    const selected = selectedDocs(c);
+    if (Number.isFinite(c.documents_submitted_impact)){
+      const base = Number(c.documents_submitted_impact);
+      if (!docs.length) return { value: base, mode: 'impact' };
+      const ratio = selected.length / docs.length;
+      const impact = clamp(base * ratio, -10, 10);
+      return { value: impact, mode: 'impact' };
+    }
+    if (!selected.length) return { value: 0, mode: 'count', total: Math.max(1, docs.length) };
+    const scored = selected.filter(d=> Number.isFinite(d.score));
+    if (scored.length){
+      const avg = scored.reduce((sum,d)=> sum + Number(d.score), 0) / scored.length;
+      return { value: avg, mode: 'score' };
+    }
+    return { value: selected.length, mode: 'count', total: Math.max(1, docs.length) };
+  }
+
+  function normRange(x, a, b){ if (!isFinite(x) || a===b) return 0.5; return (x - a) / (b - a); }
+  function normSigned10(x){ // maps [-10,10] => [0,1]
+    const v = Number(x)||0; return clamp((v+10)/20, 0, 1);
+  }
+
+  function computeScore(c, scales, weights){
+    const capNorm = normRange(Math.log10(Math.max(1, Number(c.market_cap)||1)), scales.minCap, scales.maxCap);
+    const confNorm = clamp((Number(c.confidence_perspective)||0)/10, 0, 1);
+    const perspectiveData = perspectiveBreakdown(c);
+    c._perspective = perspectiveData;
+    let perspectiveScore = perspectiveData.score != null ? perspectiveData.score : clamp(normSigned10(c.perspective_evolution)*5, 0, 5);
+    perspectiveScore = clamp(perspectiveScore, 0, 5);
+    c._perspectiveScore = perspectiveScore;
+    const perspNorm = perspectiveScore / 5;
+
+    const docInfo = valDocs(c);
+    let docsNorm = 0;
+    if (docInfo.mode === 'impact'){
+      docsNorm = normSigned10(docInfo.value);
+    }else if (docInfo.mode === 'score'){
+      docsNorm = clamp((Number(docInfo.value)||0)/10, 0, 1);
+    }else{
+      const denom = docInfo.total ? Math.max(1, docInfo.total) : 5;
+      docsNorm = clamp((Number(docInfo.value)||0)/denom, 0, 1);
+    }
+    const totalDocs = Array.isArray(c.documents)? c.documents.length : 0;
+    const selectedCount = selectedDocs(c).length;
+    c._docInfo = {
+      mode: docInfo.mode,
+      value: docInfo.value,
+      score: docsNorm*5,
+      selected: selectedCount,
+      total: totalDocs
+    };
+
+    const s = computeOverallScore(c, capNorm, perspNorm, docsNorm, confNorm, weights);
+    return Number(s.toFixed(4));
+  }
+
+  function matchesFilters(c){
+    const sector = filterSector?.value || '';
+    if (sector && (c.sector || '') !== sector) return false;
+    const region = filterRegion?.value || '';
+    if (region && (c.continent || '') !== region) return false;
+    const capFilter = filterCap?.value || '';
+    if (capFilter){
+      const bucket = CAP_BUCKET_MAP[capFilter];
+      const mc = Number(c.market_cap) || 0;
+      if (!bucket || !bucket.test(mc)) return false;
+    }
+    return true;
+  }
+
+  function availablePool(){
+    const excluded = new Set([...liked, ...passed]);
+    return allCompanies.filter(c=> !excluded.has(c) && matchesFilters(c));
+  }
+
+  function applyFilters(focusCompany){
+    const filtered = availablePool();
+    deck = filtered.slice();
+    if (focusCompany && matchesFilters(focusCompany)){
+      const idx = deck.indexOf(focusCompany);
+      if (idx > 0){ deck.splice(idx,1); deck.unshift(focusCompany); }
+    }
+    animateNextTop = true;
+    recomputeScores();
+  }
+
+  function repopulateSelect(select, placeholder, values){
+    if (!select) return;
+    select.innerHTML = '';
+    const first = document.createElement('option');
+    first.value = '';
+    first.textContent = placeholder;
+    select.appendChild(first);
+    values.forEach(val=>{
+      const opt = document.createElement('option');
+      if (typeof val === 'string'){ opt.value = val; opt.textContent = val; }
+      else { opt.value = val.value; opt.textContent = val.label; }
+      select.appendChild(opt);
+    });
+  }
+
+  function updateFilterOptions(){
+    if (!allCompanies.length) return;
+    const sectors = Array.from(new Set(allCompanies.map(c=>c.sector).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+    const regions = Array.from(new Set(allCompanies.map(c=>c.continent).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+
+    const currentSector = filterSector.value;
+    const currentRegion = filterRegion.value;
+    const currentCap = filterCap.value;
+
+    repopulateSelect(filterSector, 'Tous les secteurs', sectors);
+    repopulateSelect(filterRegion, 'Toutes les régions', regions);
+    repopulateSelect(filterCap, 'Toutes tailles', CAP_BUCKETS.filter(b=>b.value));
+
+    if (currentSector && sectors.includes(currentSector)) filterSector.value = currentSector;
+    if (currentRegion && regions.includes(currentRegion)) filterRegion.value = currentRegion;
+    if (CAP_BUCKET_MAP[currentCap]) filterCap.value = currentCap;
+  }
+
+  function weightsFromUI(){
+    const cap = Number(wCap.value)/100, per = Number(wPer.value)/100, doc = Number(wDoc.value)/100, con = Number(wCon.value)/100;
+    const sum = cap+per+doc+con || 1;
+    // normalize to 1 to make tuning intuitive
+    return { cap:cap/sum, persp:per/sum, docs:doc/sum, conf:con/sum };
+  }
+
+  function rebalanceSliders(changed){
+    const target = 100;
+    const safeVal = Math.max(0, Math.min(target, Number(changed.value)||0));
+    changed.value = safeVal;
+    const others = sliders.filter(s=>s!==changed);
+    if (safeVal >= target){
+      others.forEach(s=> s.value = 0);
+    }else{
+      let remaining = target - safeVal;
+      const otherSum = others.reduce((sum,el)=> sum + Math.max(0, Number(el.value)||0), 0);
+      if (otherSum === 0){
+        const share = remaining / others.length;
+        others.forEach(s=> s.value = Math.round(share));
+      }else{
+        others.forEach(s=>{
+          const proportion = Math.max(0, Number(s.value)||0) / otherSum;
+          s.value = Math.round(proportion * remaining);
+        });
+      }
+    }
+    let diff = target - sliders.reduce((sum,el)=> sum + (Number(el.value)||0), 0);
+    const adjustablePool = sliders.filter(el=> el !== changed);
+    let idx = 0;
+    while(diff !== 0 && adjustablePool.length){
+      const el = adjustablePool[idx % adjustablePool.length];
+      const current = Number(el.value)||0;
+      if (diff > 0){
+        if (current < 100){
+          el.value = current + 1;
+          diff -= 1;
+        }else{
+          adjustablePool.splice(idx % adjustablePool.length,1);
+          continue;
+        }
+      }else{
+        if (current > 0){
+          el.value = current - 1;
+          diff += 1;
+        }else{
+          adjustablePool.splice(idx % adjustablePool.length,1);
+          continue;
+        }
+      }
+      idx++;
+    }
+    if (diff !== 0){
+      const current = Number(changed.value)||0;
+      changed.value = Math.max(0, Math.min(100, current + diff));
+    }
+  }
+
+  function updateWeightLabels(){
+    wCapV.textContent = (Number(wCap.value)/100).toFixed(2);
+    wPerV.textContent = (Number(wPer.value)/100).toFixed(2);
+    wDocV.textContent = (Number(wDoc.value)/100).toFixed(2);
+    wConV.textContent = (Number(wCon.value)/100).toFixed(2);
+  }
+
+  function recomputeScores(){
+    const ws = weightsFromUI(); updateWeightLabels();
+    const population = [...deck, ...liked, ...passed];
+    const base = population.length ? population : deck;
+    const scales = computeScales(base);
+    population.forEach(c=>{ c._score = computeScore(c, scales, ws); });
+    deck.sort((a,b)=> (b._score||0) - (a._score||0));
+    renderStack();
+  }
+
+  // ---------- Rendering ----------
+  function renderLists(){
+    const likedGrew = liked.length > prevLikedCount;
+    const passedGrew = passed.length > prevPassedCount;
+    const render = (ul, items, cls, highlightNew) => {
+      ul.innerHTML = '';
+      if (items.length === 0){ const d=el('div','small'); d.textContent='— aucun'; ul.appendChild(d); return; }
+      items.forEach((c, idx)=>{
+        const li = el('div','li '+cls);
+        if (highlightNew && idx===0){
+          li.classList.add('entering');
+          li.addEventListener('animationend', ()=>li.classList.remove('entering'), {once:true});
+        }
+        const content = el('div','li-content');
+        const name = `${c.name}${c.stock_name?` (${c.stock_name})`:''}`;
+        content.appendChild(el('span','li-name',name));
+        const scoreText = c._score!=null ? `Score ${(c._score*5).toFixed(2)} / 5` : 'Score —';
+        const s=el('span','li-score', scoreText);
+        content.appendChild(s);
+        li.appendChild(content);
+
+        const actions = el('div','li-actions');
+        const btnReturn = el('button','mini-btn','↺');
+        btnReturn.title = 'Remettre dans la pile';
+        btnReturn.addEventListener('click',(ev)=>{ ev.stopPropagation(); requeueSelection(c, cls); });
+        actions.appendChild(btnReturn);
+
+        const btnToggle = el('button','mini-btn', cls==='like'?'⇄':'⇄');
+        btnToggle.title = cls==='like' ? 'Envoyer dans Passed' : 'Envoyer dans Liked';
+        btnToggle.addEventListener('click',(ev)=>{ ev.stopPropagation(); toggleSelectionList(c, cls); });
+        actions.appendChild(btnToggle);
+
+        li.appendChild(actions);
+        ul.appendChild(li);
+      });
+    };
+    render(ulLike, liked, 'like', likedGrew);
+    render(ulPass, passed, 'pass', passedGrew);
+    remain.textContent = `Cartes restantes : ${deck.length}`;
+    prevLikedCount = liked.length;
+    prevPassedCount = passed.length;
+  }
+
+  function requeueSelection(company, from){
+    const source = from==='like'? liked : passed;
+    const idx = source.indexOf(company); if (idx>=0) source.splice(idx,1);
+    purgeHistoryFor(company);
+    applyFilters(company);
+  }
+
+  function toggleSelectionList(company, from){
+    if (from==='like'){
+      const idx = liked.indexOf(company); if (idx>=0) liked.splice(idx,1);
+      passed.unshift(company);
+    }else{
+      const idx = passed.indexOf(company); if (idx>=0) passed.splice(idx,1);
+      liked.unshift(company);
+    }
+    purgeHistoryFor(company);
+    applyFilters();
+  }
+
+  function setDocSelection(company, index, isSelected){
+    ensureDocSelection(company);
+    company._docSelected[index] = isSelected;
+    recomputeScores();
+  }
+
+  function makeCard(c, zIndex){
+    const card = el('div','card');
+    card.style.zIndex = String(zIndex);
+
+    const inner = el('div','card-inner');
+
+    const rawScore = Number.isFinite(c._score) ? c._score : null;
+    const normalizedScore = rawScore!=null ? clamp(rawScore,0,1) : null;
+    const scoreBadge = el('div','pill score-badge', `Score: ${ (rawScore!=null? (rawScore*5).toFixed(2):'—') } / 5`);
+    if (normalizedScore!=null){
+      const tint = mixColor('#ff4458','#2fe08e', normalizedScore);
+      scoreBadge.style.background = tint;
+      scoreBadge.style.color = readableOn(tint);
+      scoreBadge.style.boxShadow = `0 24px 40px ${hexToRgba(tint,0.35)}`;
+    }else{
+      scoreBadge.style.background = 'rgba(255,255,255,0.85)';
+      scoreBadge.style.color = '#1f2933';
+    }
+    const scoreWrap = el('div','score-main');
+    scoreWrap.appendChild(scoreBadge);
+
+    const content = el('div','card-content');
+    inner.appendChild(content);
+
+    const top = el('div','row');
+
+    // left
+    const left = el('div');
+    const headerRow = el('div','row');
+    const logo = el('div','logo'); const img=document.createElement('img'); img.src=getLogoSrc(c.ticker); img.alt=c.name; img.referrerPolicy='no-referrer'; img.onerror=(e)=>{ e.target.src = initialsSVG(c.ticker); };
+    logo.appendChild(img); headerRow.appendChild(logo);
+    const titleBox = el('div');
+    const h2 = el('h2','h2'); h2.textContent = c.name + (c.stock_name?` (${c.stock_name})`: '');
+    titleBox.appendChild(h2);
+    const sub = el('div','sub'); sub.textContent = [c.sector, c.industry].filter(Boolean).join(' • ');
+    titleBox.appendChild(sub);
+    const sub2 = el('div','sub'); sub2.textContent = [c.country, c.continent].filter(Boolean).join(' • ');
+    titleBox.appendChild(sub2);
+    headerRow.appendChild(titleBox);
+    left.appendChild(headerRow);
+
+    top.appendChild(left);
+    top.appendChild(scoreWrap);
+    content.appendChild(top);
+
+    const perspectiveData = c._perspective || perspectiveBreakdown(c);
+    const perspectiveScore = Number.isFinite(c._perspectiveScore)
+      ? c._perspectiveScore
+      : (perspectiveData.score != null ? perspectiveData.score : clamp(normSigned10(c.perspective_evolution)*5,0,5));
+    ensureDocSelection(c);
+    const docInfoBase = c._docInfo || {};
+    const docInfo = {
+      mode: docInfoBase.mode,
+      value: docInfoBase.value,
+      score: docInfoBase.score != null ? docInfoBase.score : 0,
+      selected: docInfoBase.selected != null ? docInfoBase.selected : selectedDocs(c).length,
+      total: docInfoBase.total != null ? docInfoBase.total : (Array.isArray(c.documents)? c.documents.length : 0)
+    };
+    if (docInfo.total === 0){
+      docInfo.score = 0;
+    }else if (docInfoBase.score == null){
+      docInfo.score = clamp((docInfo.selected/Math.max(1, docInfo.total))*5, 0, 5);
+    }
+
+    const metricCard = (title, value, subtitle)=>{
+      const cardBox = el('div','metric-card');
+      cardBox.appendChild(el('div','metric-title', title));
+      cardBox.appendChild(el('div','metric-value', value));
+      if (subtitle){ cardBox.appendChild(el('div','metric-sub', subtitle)); }
+      return cardBox;
+    };
+
+    const metrics = el('div','metrics');
+    metrics.appendChild(metricCard('Market Cap', fmtCap(c.market_cap), 'Valorisation actuelle'));
+    const perspSubtitleParts = [];
+    if (perspectiveData.items && perspectiveData.items.length){
+      perspSubtitleParts.push(`${perspectiveData.items.length} facteurs pondérés`);
+    }
+    perspSubtitleParts.push('Cliquer pour voir les détails');
+    const perspectiveCard = metricCard('Perspective évolution', `${perspectiveScore.toFixed(2)} / 5`, perspSubtitleParts.join(' · '));
+    metrics.appendChild(perspectiveCard);
+    const docsMain = docInfo.total ? `${docInfo.selected}/${docInfo.total} actifs` : 'Aucun document';
+    const docsSubtitleParts = [];
+    if (docInfo.total){
+      docsSubtitleParts.push(`Score ${docInfo.score.toFixed(2)} / 5`);
+      docsSubtitleParts.push('Gérez les sources ci-dessous');
+    }else{
+      docsSubtitleParts.push('Ajoutez des sources pour enrichir l\'analyse');
+    }
+    metrics.appendChild(metricCard('Documents soumis', docsMain, docsSubtitleParts.join(' · ')));
+    const confRaw = Number(c.confidence_perspective)||0;
+    const confScore = clamp((confRaw/10)*5, 0, 5);
+    metrics.appendChild(metricCard('Confiance perspective', `${confRaw.toFixed(1)} / 10`, `Score ${confScore.toFixed(2)} / 5 · Fiabilité des signaux`));
+    content.appendChild(metrics);
+
+    let perspectiveDetailEl = null;
+    if (perspectiveData.items && perspectiveData.items.length){
+      const perspDetail = el('details','detail-block');
+      const perspSummary = el('summary','detail-summary', `Perspective — détails (${perspectiveScore.toFixed(2)} / 5)`);
+      perspSummary.appendChild(el('span','summary-hint','Explications sur chaque facteur'));
+      perspDetail.appendChild(perspSummary);
+      perspectiveDetailEl = perspDetail;
+      const rows = el('div','detail-rows');
+      perspectiveData.items.forEach(item=>{
+        const row = el('div','detail-row');
+        const head = el('div','detail-row-top');
+        const label = el('span','detail-label', item.label);
+        const valText = `${item.score.toFixed(2)} / 5`;
+        const value = el('span','detail-value', valText);
+        head.appendChild(label); head.appendChild(value);
+        row.appendChild(head);
+        const infoText = item.explanation || '';
+        if (infoText){ row.appendChild(el('div','detail-hint', infoText)); }
+        rows.appendChild(row);
+      });
+      perspDetail.appendChild(rows);
+      content.appendChild(perspDetail);
+    }
+
+    if (perspectiveDetailEl){
+      const detailId = `perspective-detail-${++detailIdSeed}`;
+      perspectiveDetailEl.id = detailId;
+      perspectiveCard.dataset.toggle = 'perspective';
+      perspectiveCard.setAttribute('role','button');
+      perspectiveCard.setAttribute('tabindex','0');
+      perspectiveCard.setAttribute('aria-controls', detailId);
+      const syncPerspectiveState = ()=>{
+        const isOpen = !!perspectiveDetailEl.open;
+        perspectiveCard.classList.toggle('is-open', isOpen);
+        perspectiveCard.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      };
+      const togglePerspective = ()=>{
+        perspectiveDetailEl.open = !perspectiveDetailEl.open;
+      };
+      perspectiveCard.addEventListener('click', (evt)=>{
+        evt.preventDefault();
+        togglePerspective();
+      });
+      perspectiveCard.addEventListener('keydown', (evt)=>{
+        if (evt.key === 'Enter' || evt.key === ' '){
+          evt.preventDefault();
+          togglePerspective();
+        }
+      });
+      perspectiveDetailEl.childNodes[0].addEventListener('toggle', ()=>{
+        syncPerspectiveState();
+        if (perspectiveDetailEl.open){
+          setTimeout(()=>{ perspectiveDetailEl.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 50);
+        }
+      });
+      syncPerspectiveState();
+    }else{
+      perspectiveCard.removeAttribute('data-toggle');
+      perspectiveCard.classList.remove('is-open');
+      perspectiveCard.removeAttribute('role');
+      perspectiveCard.removeAttribute('tabindex');
+      perspectiveCard.removeAttribute('aria-controls');
+      perspectiveCard.removeAttribute('aria-expanded');
+    }
+
+    if (Array.isArray(c.documents) && c.documents.length){
+      console.log(c)
+;      const docDetail = el('details','detail-block');
+      const docSummaryText = `Documents (${docInfo.selected}/${docInfo.total})${docInfo.total ? ` — Score ${docInfo.score.toFixed(2)} / 5` : ''}`;
+      const docSummary = el('summary','detail-summary', docSummaryText);
+      docSummary.appendChild(el('span','summary-hint','Cliquez pour afficher/masquer'));
+      docDetail.appendChild(docSummary);
+      const docs = el('div','detail-rows');
+      c.documents.forEach((d,idx)=>{
+        const row = el('div','detail-row');
+        const header = el('div','doc-header');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'doc-check';
+        checkbox.checked = c._docSelected[idx] !== false;
+        checkbox.addEventListener('change', (ev)=>{ ev.stopPropagation(); ev.preventDefault(); setDocSelection(c, idx, checkbox.checked); row.classList.toggle('doc-disabled', !checkbox.checked); });
+        header.appendChild(checkbox);
+
+        const title = el('a','doc-title', d.nom || `Document ${idx+1}`);
+        if (d.lien){ title.href = d.lien; title.target = '_blank'; title.rel = 'noreferrer'; }
+        header.appendChild(title);
+
+        const metaBits = [];
+        if (Number.isFinite(d.score)) metaBits.push(`Score ${d.score}`);
+        if (Number.isFinite(d.confiance)) metaBits.push(`Confiance ${d.confiance}`);
+        if (metaBits.length){ header.appendChild(el('div','doc-meta', metaBits.join(' · '))); }
+
+        row.appendChild(header);
+        if (d.résumé){ row.appendChild(el('div','doc-summary', d.résumé)); }
+        row.classList.toggle('doc-disabled', checkbox.checked === false);
+        docs.appendChild(row);
+      });
+      docDetail.appendChild(docs);
+      content.appendChild(docDetail);
+    }
+
+    const newsDetail = el('details','detail-block');
+    const newsSummary = el('summary','detail-summary','News prises en compte');
+    newsSummary.appendChild(el('span','summary-hint','Cliquez pour afficher'));
+    newsDetail.appendChild(newsSummary);
+    const newsRows = el('div','detail-rows');
+    if (Array.isArray(c.news) && c.news.length){
+      c.news.slice(0,5).forEach(n=>{
+        const row = el('div','detail-row');
+        const head = el('div','detail-row-top');
+        const label = el(n.lien ? 'a' : 'span','detail-label', n.nom || 'Actualité');
+        if (n.lien){
+          label.href = n.lien;
+          label.target = '_blank';
+          label.rel = 'noreferrer';
+        }
+        head.appendChild(label);
+        const infoParts = [];
+        if (n.confiance) {
+            infoParts.push("Confiance: " + n.confiance);
+        }
+        if (Number.isFinite(n.score)) infoParts.push(`Score: ${n.score.toFixed(2)}`);
+        head.appendChild(el('span','detail-value', infoParts.length ? infoParts.join(' · ') : '—'));
+        row.appendChild(head);
+        if (n.résumé){
+          row.appendChild(el('div','detail-hint', n.résumé));
+        }else if (n.lien){
+          row.appendChild(el('div','detail-hint', 'Consultez la source pour plus de détails.'));
+        }
+        newsRows.appendChild(row);
+      });
+    }else{
+      newsRows.appendChild(el('div','detail-empty','Aucune news enregistrée'));
+    }
+    newsDetail.appendChild(newsRows);
+    content.appendChild(newsDetail);
+
+    if (c.justification){ content.appendChild(el('p','just', c.justification)); }
+
+    // ACTIONS — Tinder style (Pass / Rewind / Like)
+    const actions = el('div','actions');
+    const bPass = el('button','cbtn cbtn-pass'); bPass.innerHTML='✕';
+    const bRew  = el('button','cbtn cbtn-rewind'); bRew.innerHTML='⟲';
+    const bLike = el('button','cbtn cbtn-like'); bLike.innerHTML='❤';
+    actions.appendChild(bPass); actions.appendChild(bRew); actions.appendChild(bLike);
+    inner.appendChild(actions);
+
+    // stamps
+    const stLike = el('div','stamp like','LIKE');
+    const stPass = el('div','stamp pass','PASS');
+    card.appendChild(stLike); card.appendChild(stPass);
+
+    card.appendChild(inner);
+
+    // Interactions: buttons
+    bPass.addEventListener('click', ()=> choose('pass', c, card));
+    bLike.addEventListener('click', ()=> choose('like', c, card));
+    bRew.addEventListener('click', undoLast);
+
+    // Interactions: drag
+    let sx=0, sy=0, dx=0, dy=0, dragging=false;
+    const onDown = (e)=>{ dragging=true; sx=(e.clientX||e.touches?.[0]?.clientX||0); sy=(e.clientY||e.touches?.[0]?.clientY||0); card.style.transition='none'; };
+    const onMove = (e)=>{
+      if(!dragging) return; const x=(e.clientX||e.touches?.[0]?.clientX||0), y=(e.clientY||e.touches?.[0]?.clientY||0);
+      dx=x-sx; dy=y-sy; const rot = dx/20; card.style.transform=`translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+      stLike.style.opacity = dx>30? Math.min((dx-30)/120, .95) : 0;
+      stPass.style.opacity = dx<-30? Math.min((-dx-30)/120, .95) : 0;
+    };
+    const onUp = ()=>{
+      if(!dragging) return; dragging=false; card.style.transition='transform .25s ease, opacity .25s ease';
+      const TH=150; 
+      if (dx>TH){ animateOut(card, 'right'); choose('like', c, card); return; }
+      if (dx<-TH){ animateOut(card, 'left');  choose('pass', c, card); return; }
+      // reset
+      card.style.transform='translate(0,0) rotate(0)'; stLike.style.opacity=stPass.style.opacity=0;
+    };
+    card.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+
+    return card;
+  }
+
+  function animateOut(card, dir){
+    const W = card.offsetWidth || 600; const H = card.offsetHeight || 500;
+    let tx=0, ty=0, rot=0;
+    if (dir==='right'){ tx= W*1.4; rot= 18; }
+    if (dir==='left'){  tx=-W*1.4; rot=-18; }
+    card.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
+  }
+
+  function renderStack(){
+    stack.innerHTML='';
+    const take = deck.slice(0,3);
+    take.forEach((c,idx)=>{
+      const card = makeCard(c, 100-idx);
+      if (animateNextTop && idx===0){
+        card.classList.add('card-incoming');
+        card.addEventListener('animationend', ()=>card.classList.remove('card-incoming'), {once:true});
+      }
+      card.style.transform = `translate(0, ${idx*10}px) scale(${1-idx*0.02})`;
+      card.style.opacity = String(1-idx*0.08);
+      stack.appendChild(card);
+    });
+    animateNextTop = false;
+    renderLists();
+    endMsg.style.display = deck.length === 0 ? 'flex' : 'none'; // AJOUT
+  }
+
+  function choose(type, c){
+    const i = deck.indexOf(c); if (i>=0) deck.splice(i,1);
+    history.push({type, company:c});
+    if (type==='like') liked.unshift(c); else passed.unshift(c);
+    animateNextTop = true;
+    setTimeout(renderStack, 160);
+  }
+
+  function undoLast(){
+    const last = history.pop(); if (!last) return;
+    // remove from liked/passed
+    const arr = (last.type==='like')? liked : passed;
+    const idx = arr.indexOf(last.company); if (idx>=0) arr.splice(idx,1);
+    // put back on top
+    deck.unshift(last.company);
+    animateNextTop = true;
+    renderStack();
+  }
+
+  // ---------- Keyboard ----------
+  window.addEventListener('keydown', (e)=>{
+    const top = deck[0];
+    if (e.key==='ArrowLeft' && top){ choose('pass', top); animateExit('left'); }
+    else if (e.key==='ArrowRight' && top){ choose('like', top); animateExit('right'); }
+    else if (e.key==='Backspace' || e.key.toLowerCase()==='z'){ undoLast(); }
+  });
+  function animateExit(dir){ const first = stack.querySelector('.card'); if (!first) return; animateOut(first, dir); }
+
+  // ---------- Export / Reset ----------
+  $('#btnExport').addEventListener('click', ()=>{
+    const payload = { timestamp: new Date().toISOString(), weights: weightsFromUI(), liked, passed };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob); const a=document.createElement('a');
+    a.href=url; a.download='company-tinder-selections.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+  $('#btnReset').addEventListener('click', ()=>{ loadDefault(); });
+
+  // Weight listeners
+  const onSliderInput = (e)=>{
+    if (isRebalancing) return;
+    isRebalancing = true;
+    rebalanceSliders(e.target);
+    isRebalancing = false;
+    recomputeScores();
+  };
+  sliders.forEach(input=> input.addEventListener('input', onSliderInput));
+  [filterSector, filterRegion, filterCap].forEach(sel=> sel && sel.addEventListener('change', ()=> applyFilters()));
+
+  function loadDefault(){
+    console.log(def);
+    allCompanies = normalizeFields(def);
+    liked=[]; passed=[]; history=[]; prevLikedCount=0; prevPassedCount=0;
+    sliders.forEach(s=> s.value = 25);
+    updateWeightLabels();
+    updateFilterOptions();
+    applyFilters();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "ticker": "AAPL",
+  "analysis_date": "2025-11-02 21:58:17",
+  "news_analyzed": 0,
+  "ai_platform": "Amazon Bedrock",
+  "model": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+  "news_items": []
+}
